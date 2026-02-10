@@ -1,0 +1,61 @@
+﻿<ResourceDictionary
+    x:Class="NikonCameraSettings.SequenceItems.Template"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:NikonCameraSettings.SequenceItems"
+    xmlns:mini="clr-namespace:NINA.View.Sequencer.MiniSequencer;assembly=NINA.Sequencer"
+    xmlns:nina="clr-namespace:NINA.View.Sequencer;assembly=NINA.Sequencer">
+
+    <!--  The definition of the plugin test instruction style  -->
+    <!--  The DataType has to be defined as the instruction in context  -->
+    <DataTemplate DataType="{x:Type local:SetStorageLocation}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Change Storage Location: " />
+                    <ComboBox
+                        Width="100"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding StorageLocationSettings}"
+                        SelectedItem="{Binding SelectedStorageLocationSetting}" />
+                    <Button
+                        Width="100"
+                        Margin="5,0,0,0"
+                        Command="{Binding RefreshCommand}"
+                        Content="Refresh"
+                        ToolTip="Refreshes the list of storage media types available." />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetMonitorOnOff}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Turn Camera Monitor On/Off: " />
+                    <ComboBox
+                        Width="100"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding MonitorSettings}"
+                        SelectedItem="{Binding SelectedMonitorSetting}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetImageStabilization}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Change Image Stabilization Setting: " />
+                    <ComboBox
+                        Width="100"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding VRSettings}"
+                        SelectedItem="{Binding SelectedVRSetting}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+</ResourceDictionary>
