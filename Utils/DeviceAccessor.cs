@@ -21,10 +21,15 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Caching;
 
 namespace NikonCameraSettings.Utils {
 
     public static class DeviceAccessor {
+
+        // Create a cache to avoid using reflection for every setting every time.
+        private static readonly MemoryCache _cache = MemoryCache.Default;
+
         /*
          * This method is largely based on the work of Christian Palm and I want to make sure
          * that his work is appropriately credited and attributed.  In the LensAF plugin,
@@ -33,19 +38,30 @@ namespace NikonCameraSettings.Utils {
 
         public static NikonDevice GetNikonDevice(ICameraMediator mediator) {
             BindingFlags boundFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.GetField;
-            try {
-                List<string> errors = Validate(mediator);
-                if (errors.Count > 0) {
+
+            // Try to get the cached NikonDevice instead of using reflection for every call.
+            object nikond = _cache.Get("NikonDevice");
+
+            if (nikond != null) return (NikonDevice)nikond;
+            else {
+                try {
+                    List<string> errors = Validate(mediator);
+                    if (errors.Count > 0) {
+                        return null;
+                    }
+                    IDevice cam = mediator.GetDevice() is PersistSettingsCameraDecorator decorator ? decorator.Camera : mediator.GetDevice();
+                    FieldInfo field = typeof(NikonCamera).GetField("_camera", boundFlags);
+                    object device = field.GetValue((NikonCamera)cam);
+                    // Will empty the cache if it hasn't been accessed in the last 2 hours
+                    CacheItemPolicy policy = new CacheItemPolicy { SlidingExpiration = TimeSpan.FromMinutes(120) };
+                    // Caches the NikonDevice to avoid future reflection calls.
+                    _cache.Set("NikonDevice", device, policy);
+                    return (NikonDevice)device;
+                } catch (Exception e) {
+                    Logger.Error(e);
+                    Notification.ShowError(e.Message);
                     return null;
                 }
-                IDevice cam = mediator.GetDevice() is PersistSettingsCameraDecorator decorator ? decorator.Camera : mediator.GetDevice();
-                FieldInfo field = typeof(NikonCamera).GetField("_camera", boundFlags);
-                object device = field.GetValue((NikonCamera)cam);
-                return (NikonDevice)device;
-            } catch (Exception e) {
-                Logger.Error(e);
-                Notification.ShowError(e.Message);
-                return null;
             }
         }
 

@@ -129,10 +129,5 @@ namespace NikonCameraSettings.SequenceItems {
             new CamInfo(theCam).SetStorageLocation(theCam, SelectedStorageLocationSetting);
             return Task.CompletedTask;
         }
-
-        ~SetStorageLocation() {
-            this.camera.Connected -= Camera_Connected;
-            this.camera.Disconnected -= CameraDisconnected;
-        }
     }
 }

@@ -18,12 +18,6 @@
                         Margin="5,0,0,0"
                         ItemsSource="{Binding StorageLocationSettings}"
                         SelectedItem="{Binding SelectedStorageLocationSetting}" />
-                    <Button
-                        Width="100"
-                        Margin="5,0,0,0"
-                        Command="{Binding RefreshCommand}"
-                        Content="Refresh"
-                        ToolTip="Refreshes the list of storage media types available." />
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
@@ -54,6 +48,330 @@
                         Margin="5,0,0,0"
                         ItemsSource="{Binding VRSettings}"
                         SelectedItem="{Binding SelectedVRSetting}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:StartPixelMapping}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Start Pixel Mapping the Sensor" />
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Center"
+                        FontStyle="Italic"
+                        Text="Note: The camera will be busy for 30 seconds or more.  I recommend only using this in your start up block." />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:StartFocusShift}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="Capture Focus Shift Stack: " />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="Status: " />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding StatusMessage}" />
+                    <!--
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="Progress: " />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsCapturing, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                    -->
+                    <!-- <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1} remaining">
+                                    <Binding Path="RemainingShots" />
+                                    <Binding Path="TotalShots" />
+                                </MultiBinding>
+                            </TextBlock.Text>-->
+                    <!-- </TextBlock> -->
+                </StackPanel>
+                <!--
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            FontStyle="Italic"
+                            Text="Note: You must set the focus shift parameters in the camera. There is no SDK access to those parameters." />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            FontStyle="Italic"
+                            Text="Additionally, this is only recommended to capture foreground (terrestrial) features." />
+                    </StackPanel>
+                -->
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetNmsIptcData}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Margin="0,2" Orientation="Vertical">
+                    <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,4,0"
+                            VerticalAlignment="Center"
+                            Text="Preset Slot:"
+                            ToolTip="NMS-IPTC preset slot (1-10) to write the metadata to" />
+                        <TextBox
+                            Width="30"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding PresetSlot, UpdateSourceTrigger=LostFocus}"
+                            ToolTip="Camera preset slot number (1-10) for NMS-IPTC data. Values outside this range are clamped." />
+                        <CheckBox
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            Content="Auto-Embed"
+                            IsChecked="{Binding ActivatePreset}"
+                            ToolTip="Activate this preset for auto-embedding into captured images (overrides any other active preset)" />
+                    </StackPanel>
+                    <WrapPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Title:"
+                                ToolTip="IPTC Object Name / Title (max 256 bytes)" />
+                            <TextBox
+                                Width="120"
+                                MaxLength="256"
+                                Text="{Binding ObjectName, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:05 — Object Name" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Headline:"
+                                ToolTip="IPTC Headline — brief synopsis (max 256 bytes)" />
+                            <TextBox
+                                Width="120"
+                                MaxLength="256"
+                                Text="{Binding Headline, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:105 — Headline" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Caption:"
+                                ToolTip="IPTC Caption/Abstract — detailed description (max 2000 bytes)" />
+                            <TextBox
+                                Width="180"
+                                MaxLength="2000"
+                                Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:120 — Caption/Abstract" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Event ID:"
+                                ToolTip="IPTC Event Identifier — session or event ID (max 64 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="64"
+                                Text="{Binding EventId, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:12 — Event Identifier" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Byline:"
+                                ToolTip="IPTC Byline — photographer/creator name (max 256 bytes)" />
+                            <TextBox
+                                Width="120"
+                                MaxLength="256"
+                                Text="{Binding Byline, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:80 — Byline (Creator)" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Byline Title:"
+                                ToolTip="IPTC Byline Title — creator's job title (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding BylineTitle, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:85 — Byline Title" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="City:"
+                                ToolTip="IPTC City — location city name (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:90 — City" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="State:"
+                                ToolTip="IPTC Province/State (max 256 bytes)" />
+                            <TextBox
+                                Width="80"
+                                MaxLength="256"
+                                Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:95 — Province/State" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Country:"
+                                ToolTip="IPTC Country name (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:101 — Country" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Category:"
+                                ToolTip="IPTC Category — 3-character ASCII code (e.g. SCI, ENV)" />
+                            <TextBox
+                                Width="40"
+                                MaxLength="3"
+                                Text="{Binding IptcCategory, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:15 — Category (3 chars max, ASCII only)" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Supp. Cat.:"
+                                ToolTip="IPTC Supplemental Categories (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding SuppCat, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:20 — Supplemental Categories" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Credit:"
+                                ToolTip="IPTC Credit — provider or image owner (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding Credit, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:110 — Credit" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Source:"
+                                ToolTip="IPTC Source — original source (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:115 — Source" />
+                        </StackPanel>
+                        <StackPanel Margin="0,1,8,1" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Text="Writer/Editor:"
+                                ToolTip="IPTC Writer/Editor — who wrote the caption (max 256 bytes)" />
+                            <TextBox
+                                Width="100"
+                                MaxLength="256"
+                                Text="{Binding WriterEditor, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="IPTC IIM 2:122 — Writer/Editor" />
+                        </StackPanel>
+                    </WrapPanel>
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetXmpIptcData}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel
+                    Margin="0,2"
+                    IsEnabled="{Binding AreControlsEnabled}"
+                    Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,4,0"
+                            VerticalAlignment="Center"
+                            Text="XMP Slot:" />
+                        <ComboBox
+                            MinWidth="50"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding AvailableSlots}"
+                            SelectedItem="{Binding PresetSlot}" />
+                        <TextBlock
+                            Margin="8,0,4,0"
+                            VerticalAlignment="Center"
+                            Text=" | " />
+                        <CheckBox
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Content="Auto-Embed"
+                            IsChecked="{Binding ActivatePreset}"
+                            ToolTip="Activate this preset for auto-embedding into captured images. Only one preset can be active at a time." />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding GpsStatusDisplay}"
+                            ToolTip="GPS location from NINA's Astrometry Settings (Options &gt; General). Data is included in every XMP write." />
+                        <TextBlock
+                            Margin="8,0,8,0"
+                            VerticalAlignment="Center"
+                            Text=" | " />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="{Binding TelescopeStatusDisplay}"
+                            ToolTip="Telescope pointing data (RA, Dec, Alt, Az) is captured at execution time and included if the telescope is connected." />
+                        <TextBlock
+                            Margin="8,0,8,0"
+                            VerticalAlignment="Center"
+                            Text=" | " />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="{Binding WeatherStatusDisplay}"
+                            ToolTip="Weather data (temperature, humidity, pressure, etc.) is captured at execution time and included if a weather device is connected." />
+                    </StackPanel>
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>

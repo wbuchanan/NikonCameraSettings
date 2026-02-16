@@ -8,9 +8,18 @@
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <DisableImplicitFrameworkReferences>false</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NINA.Plugin" Version="3.0.0.2017-beta" />
+    <PackageReference Include="NINA.Plugin" Version="3.0.0.2017-beta">
+      <ExcludeAssets>none</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup> 
+  <ItemGroup>
+    <ProjectReference Include="..\ninaOfficial\nikoncswrapper\nikoncswrapper.csproj">
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

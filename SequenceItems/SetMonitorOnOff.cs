@@ -130,10 +130,5 @@ namespace NikonCameraSettings.SequenceItems {
             new CamInfo(theCam).SetMonitorOnOff(theCam, SelectedMonitorSetting);
             return Task.CompletedTask;
         }
-
-        ~SetMonitorOnOff() {
-            this.camera.Connected -= Camera_Connected;
-            this.camera.Disconnected -= CameraDisconnected;
-        }
     }
 }

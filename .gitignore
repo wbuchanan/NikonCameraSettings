@@ -5,6 +5,7 @@ NINA/External/*/Nikon
 
 # Exclude nuget.exe
 /publish/nuget.exe
+/publish/
 
 # User-specific files
 *.rsuser

@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NikonCameraSettings.Utils {
     /*
@@ -26,6 +28,20 @@ namespace NikonCameraSettings.Utils {
     public class CamInfo {
         public const uint VIBRATION_REDUCTION = 34053;
         public const uint CHANGE_MONITOR_OFF_STATUS = 34080;
+        public const uint PIXEL_MAPPING = 34097;
+        public const uint FOCUS_SHIFT = 34104;
+        public const uint FOCUS_SHIFT_INFO = 34108;
+        public const uint DIFFRACTION_COMPENSATION = 34052;
+
+        public static Dictionary<uint, string> CameraTypetoFirmware = new Dictionary<uint, string> {
+            { 0x57, "Z 9" },
+            { 0x59, "Z 8" },
+            { 0x5A, "Z 9_FU1" },
+            { 0x5B, "Z 9_FU2" },
+            { 0x5C, "Z 9_FU3" },
+            { 0x5D, "Z 9_FU4" },
+            { 0x5E, "Z 8_FU1" },
+        };
 
         private static Dictionary<string, int> _monitorSettings = new() {
             { "On", 0 },
@@ -51,7 +67,14 @@ namespace NikonCameraSettings.Utils {
         // Mirrors the way the superclass is initialized so this class will have the same member variables defined.
         public CamInfo(NikonDevice camera) {
             camera = camera;
+            Logger.Debug($"Initialized CamInfo for a camera with firmware version: {GetCameraFirmware(camera)}");
         }
+
+        public static string GetCameraFirmware(NikonDevice camera) {
+            uint camtype = camera.GetUnsigned(eNkMAIDCapability.kNkMAIDCapability_CameraType);
+            return CameraTypetoFirmware.TryGetValue(camtype, out string firmware) ? firmware : "Unknown/Unmapped Firmware Version";
+        }
+
 
         // This should be used to populate the dropdown for image stabilization settings in the UI
         // in addition to being used to set the image stabilization setting on the camera.
@@ -100,6 +123,72 @@ namespace NikonCameraSettings.Utils {
                 // Handle exceptions as needed, e.g., log the error or show a message to the user.
                 Logger.Error($"The SDK for this camera does not expose the StorageMedia settings.");
             }
+        }
+
+        public void StartPixelMapping(NikonDevice camera) {
+            if (camera.SupportsCapability((eNkMAIDCapability)PIXEL_MAPPING)) {
+                Logger.Debug("Started pixel mapping.");
+                camera.Start((eNkMAIDCapability)PIXEL_MAPPING);
+                Logger.Debug("Completed pixel mapping.");
+            } else {
+                // Handle exceptions as needed, e.g., log the error or show a message to the user.
+                Logger.Error($"The SDK for this camera does not expose the Pixel Mapping settings.");
+            }
+        }
+
+        // To try avoiding DeviceBusy status errors across the board.  
+        // Should also figure out how to make the maxWaitSeconds parameter user-configurable in the UI at some point since 
+        // 5 minutes is probably only needed if someone is taking an exceptionally long focus shift stack or trying to use 
+        // focus shift stacking in low light situations where the exposure time will be very long.
+        public static async Task<bool> WaitForDeviceReady(NikonDevice device, CancellationToken token,
+                                                          int maxWaitSeconds = 600, int pollIntervalMs = 500) {
+
+            if (device == null) {
+                Logger.Warning("WaitForDeviceReady: NikonDevice is null.");
+                return false;
+            }
+
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            TimeSpan timeout = TimeSpan.FromSeconds(maxWaitSeconds);
+            int retryCount = 0;
+
+            while (!token.IsCancellationRequested) {
+                try {
+                    device.GetInteger(eNkMAIDCapability.kNkMAIDCapability_BatteryLevel);
+                    if (retryCount > 0) {
+                        Logger.Info($"WaitForDeviceReady: Camera ready after " + $"{retryCount} retries ({stopwatch.ElapsedMilliseconds}ms).");
+                    }
+                    return true;
+
+                } catch (NikonException ex)
+                    when (ex.ErrorCode == eNkMAIDResult.kNkMAIDResult_DeviceBusy) {
+                    retryCount++;
+
+                    if (stopwatch.Elapsed >= timeout) {
+                        Logger.Warning($"WaitForDeviceReady: Timeout after " + $"{maxWaitSeconds}s ({retryCount} retries). Camera is still busy.");
+                        return false;
+                    }
+                    if (retryCount % 10 == 0) {
+                        Logger.Debug($"WaitForDeviceReady: Still busy after " + $"{retryCount} retries " +
+                                     $"({stopwatch.ElapsedMilliseconds}ms elapsed).");
+                    }
+
+                } catch (NullReferenceException) {
+                    Logger.Warning("WaitForDeviceReady: NullReferenceException from SDK worker thread (stored async exception). Proceeding — camera may be ready.");
+                    return true;
+
+                } catch (NikonException ex) {
+                    Logger.Debug($"WaitForDeviceReady: SDK responded with " + $"{ex.ErrorCode} — camera is not busy, proceeding.");
+                    return true;
+                }
+                try {
+                    await Task.Delay(pollIntervalMs, token);
+                } catch (TaskCanceledException) {
+                    Logger.Debug("WaitForDeviceReady: Cancelled by user.");
+                    return false;
+                }
+            }
+            return false;
         }
     }
 }

@@ -68,14 +68,11 @@ namespace NikonCameraSettings.SequenceItems {
             }
         }
 
-        public RelayCommand<object> RefreshCommand { get; set; }
-
         private readonly ICameraMediator camera;
         private NikonDevice theCam;
 
         [ImportingConstructor]
         public SetImageStabilization(ICameraMediator camera) {
-            RefreshCommand = new RelayCommand<object>((o) => SetVRSettingsList());
             this.camera = camera;
             theCam = DeviceAccessor.GetNikonDevice(this.camera);
             this.camera.Connected += Camera_Connected;
@@ -130,11 +127,6 @@ namespace NikonCameraSettings.SequenceItems {
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
             new CamInfo(theCam).SetImageStabilization(theCam, SelectedVRSetting);
             return Task.CompletedTask;
-        }
-
-        ~SetImageStabilization() {
-            this.camera.Connected -= Camera_Connected;
-            this.camera.Disconnected -= CameraDisconnected;
         }
     }
 }

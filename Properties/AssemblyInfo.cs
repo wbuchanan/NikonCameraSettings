@@ -31,7 +31,7 @@ using System.Runtime.InteropServices;
 // The url to the license
 [assembly: AssemblyMetadata("LicenseURL", "https://www.mozilla.org/en-US/MPL/2.0/")]
 // The repository where your pluggin is hosted
-[assembly: AssemblyMetadata("Repository", "https://github.com/wbuchanan/NINANikonSettings")]
+[assembly: AssemblyMetadata("Repository", "https://github.com/wbuchanan/NikonCameraSettings")]
 
 // The following attributes are optional for the official manifest meta data
 
@@ -42,14 +42,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyMetadata("Tags", "Camera Settings")]
 
 //[Optional] A link that will show a log of all changes in between your plugin's versions
-[assembly: AssemblyMetadata("ChangelogURL", "https://github.com/wbuchanan/NINANikonSettings/CHANGELOG.md")]
+[assembly: AssemblyMetadata("ChangelogURL", "https://github.com/wbuchanan/NikonCameraSettings/CHANGELOG.md")]
 
 //[Optional] The url to a featured logo that will be displayed in the plugin list next to the name
-[assembly: AssemblyMetadata("FeaturedImageURL", "")]
+//[assembly: AssemblyMetadata("FeaturedImageURL", "")]
 //[Optional] A url to an example screenshot of your plugin in action
-[assembly: AssemblyMetadata("ScreenshotURL", "")]
+//[assembly: AssemblyMetadata("ScreenshotURL", "")]
 //[Optional] An additional url to an example example screenshot of your plugin in action
-[assembly: AssemblyMetadata("AltScreenshotURL", "")]
+//[assembly: AssemblyMetadata("AltScreenshotURL", "")]
 //[Optional] An in-depth description of your plugin
 [assembly: AssemblyMetadata("LongDescription", @"Will allow users to modify the aperture, media storage used to save images, vibration reduction, and turning the camera's monitor on/off initially.  ")]
 
