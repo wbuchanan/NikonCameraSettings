@@ -173,7 +173,11 @@ namespace NikonCameraSettings.SequenceItems {
             }
         }
 
-        private AstrometricData ReadAstrometricData() {
+        private AstrometricData ReadAstrometricDataFromTelescope() {
+            return ReadAstrometricData(double.NaN, double.NaN);
+        }
+
+        private AstrometricData ReadAstrometricData(double latitude = double.NaN, double longitude = double.NaN) {
             try {
                 var info = telescopeMediator?.GetInfo();
                 if (info == null || !info.Connected) return null;
@@ -182,8 +186,9 @@ namespace NikonCameraSettings.SequenceItems {
                 double altDegrees = info.Altitude;
                 double azDegrees = info.Azimuth;
                 double lstHours = info.SiderealTime;
-                return new AstrometricData(raHours, decDegrees, altDegrees,
-                    azDegrees, lstHours);
+                // Need to figure out where to find this
+                string objectName = "";
+                return new AstrometricData(raHours, decDegrees, altDegrees, azDegrees, lstHours, objectName, longitude, latitude);
             } catch (Exception ex) {
                 Logger.Warning($"SetXmpIptcData: Error reading telescope data: {ex.Message}");
                 return null;
@@ -252,9 +257,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            if (theCam != null &&
-                !theCam.SupportsCapability(
-                    eNkMAIDCapability.kNkMAIDCapability_IPTCPresetInfo)) {
+            if (theCam != null && !theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_IPTCPresetInfo)) {
                 Logger.Warning("SetXmpIptcData: Camera does not support IPTC presets. Skipping.");
                 return Task.CompletedTask;
             }

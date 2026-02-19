@@ -22,6 +22,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Caching;
+using NINA.Image.ImageData;
 
 namespace NikonCameraSettings.Utils {
 

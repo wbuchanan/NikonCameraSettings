@@ -17,7 +17,7 @@
                         Width="100"
                         Margin="5,0,0,0"
                         ItemsSource="{Binding StorageLocationSettings}"
-                        SelectedItem="{Binding SelectedStorageLocationSetting}" />
+                        SelectedItem="{Binding SelectedStorageLocationSetting, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
@@ -32,7 +32,22 @@
                         Width="100"
                         Margin="5,0,0,0"
                         ItemsSource="{Binding MonitorSettings}"
-                        SelectedItem="{Binding SelectedMonitorSetting}" />
+                        SelectedItem="{Binding SelectedMonitorSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetAutoISOControl}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Turn Camera Monitor On/Off: " />
+                    <ComboBox
+                        Width="100"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding AutoISOSettings}"
+                        SelectedItem="{Binding SelectedISOSetting, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
@@ -47,7 +62,7 @@
                         Width="100"
                         Margin="5,0,0,0"
                         ItemsSource="{Binding VRSettings}"
-                        SelectedItem="{Binding SelectedVRSetting}" />
+                        SelectedItem="{Binding SelectedVRSetting, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
@@ -71,57 +86,79 @@
     <DataTemplate DataType="{x:Type local:StartFocusShift}">
         <nina:SequenceBlockView DataContext="{Binding}">
             <nina:SequenceBlockView.SequenceItemContent>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Text="Capture Focus Shift Stack: " />
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="Status: " />
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding StatusMessage}" />
-                    <!--
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="Progress: " />
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding IsCapturing, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
-                    -->
-                    <!-- <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} / {1} remaining">
-                                    <Binding Path="RemainingShots" />
-                                    <Binding Path="TotalShots" />
-                                </MultiBinding>
-                            </TextBlock.Text>-->
-                    <!-- </TextBlock> -->
-                </StackPanel>
-                <!--
+                <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="Capture Focus Shift Stack: " />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="Polling Interval in milliseconds: " />
+                        <TextBox
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding PollInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="Be sure that the polling interval is short enough to capture some of your images being captured, otherwise it may result in errors." />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="Max Polling Iterations: " />
+                        <TextBox
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding MaxPollIterations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="This number should be at least equal to: 1 + ((Exposure Time per Image in ms * Number of Images) / Poll Interval) to ensure there will be a sufficient number of attempts made." />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="Status: " />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="Total Shots in Stack: " />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding TotalShots}" />
+                        <TextBlock
+                            Margin="25,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="Shots Completed: " />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding CompletedShots}" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="Shots Remaining: " />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding RemainingShots}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
                         <TextBlock
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             FontStyle="Italic"
                             Text="Note: You must set the focus shift parameters in the camera. There is no SDK access to those parameters." />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
                         <TextBlock
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             FontStyle="Italic"
                             Text="Additionally, this is only recommended to capture foreground (terrestrial) features." />
                     </StackPanel>
-                -->
+                </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>
 
+    <!--
     <DataTemplate DataType="{x:Type local:SetNmsIptcData}">
         <nina:SequenceBlockView DataContext="{Binding}">
             <nina:SequenceBlockView.SequenceItemContent>
@@ -136,13 +173,13 @@
                             Width="30"
                             Margin="0,0,10,0"
                             VerticalAlignment="Center"
-                            Text="{Binding PresetSlot, UpdateSourceTrigger=LostFocus}"
+                            Text="{Binding PresetSlot, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="Camera preset slot number (1-10) for NMS-IPTC data. Values outside this range are clamped." />
                         <CheckBox
                             Margin="0,0,5,0"
                             VerticalAlignment="Center"
                             Content="Auto-Embed"
-                            IsChecked="{Binding ActivatePreset}"
+                            IsChecked="{Binding ActivatePreset, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="Activate this preset for auto-embedding into captured images (overrides any other active preset)" />
                     </StackPanel>
                     <WrapPanel Orientation="Horizontal">
@@ -318,7 +355,7 @@
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
-    </DataTemplate>
+    </DataTemplate>-->
 
     <DataTemplate DataType="{x:Type local:SetXmpIptcData}">
         <nina:SequenceBlockView DataContext="{Binding}">
@@ -336,7 +373,7 @@
                             MinWidth="50"
                             VerticalAlignment="Center"
                             ItemsSource="{Binding AvailableSlots}"
-                            SelectedItem="{Binding PresetSlot}" />
+                            SelectedItem="{Binding PresetSlot, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             Margin="8,0,4,0"
                             VerticalAlignment="Center"
@@ -345,7 +382,7 @@
                             Margin="4,0,0,0"
                             VerticalAlignment="Center"
                             Content="Auto-Embed"
-                            IsChecked="{Binding ActivatePreset}"
+                            IsChecked="{Binding ActivatePreset, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="Activate this preset for auto-embedding into captured images. Only one preset can be active at a time." />
                     </StackPanel>
 
