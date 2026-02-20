@@ -45,9 +45,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyMetadata("ChangelogURL", "https://github.com/wbuchanan/NikonCameraSettings/CHANGELOG.md")]
 
 //[Optional] The url to a featured logo that will be displayed in the plugin list next to the name
-//[assembly: AssemblyMetadata("FeaturedImageURL", "")]
+[assembly: AssemblyMetadata("FeaturedImageURL", "https://raw.githubusercontent.com/wbuchanan/NikonCameraSettings/refs/heads/main/logo.png")]
 //[Optional] A url to an example screenshot of your plugin in action
-//[assembly: AssemblyMetadata("ScreenshotURL", "")]
+[assembly: AssemblyMetadata("ScreenshotURL", "https://raw.githubusercontent.com/wbuchanan/NikonCameraSettings/refs/heads/main/AvailableCameraSettings.png")]
 //[Optional] An additional url to an example example screenshot of your plugin in action
 //[assembly: AssemblyMetadata("AltScreenshotURL", "")]
 //[Optional] An in-depth description of your plugin
