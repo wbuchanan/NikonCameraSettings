@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 // [MANDATORY] The name of your plugin
 [assembly: AssemblyTitle("NikonCameraSettings")]
 // [MANDATORY] A short description of your plugin
-[assembly: AssemblyDescription("Allows users to change camera settings from NINA")]
+[assembly: AssemblyDescription("Allows users to change camera settings on Nikon cameras from NINA")]
 
 // The following attributes are not required for the plugin per se, but are required by the official manifest meta data
 
@@ -51,7 +51,7 @@ using System.Runtime.InteropServices;
 //[Optional] An additional url to an example example screenshot of your plugin in action
 //[assembly: AssemblyMetadata("AltScreenshotURL", "")]
 //[Optional] An in-depth description of your plugin
-[assembly: AssemblyMetadata("LongDescription", @"Will allow users to modify the aperture, media storage used to save images, vibration reduction, and turning the camera's monitor on/off initially.  ")]
+[assembly: AssemblyMetadata("LongDescription", @"Will allow users to modify multiple camera settings during imaging sequences.  See the project's README for additional information: https://github.com/wbuchanan/NikonCameraSettings")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

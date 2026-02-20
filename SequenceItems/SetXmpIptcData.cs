@@ -109,23 +109,29 @@ namespace NikonCameraSettings.SequenceItems {
         public string GpsStatusDisplay {
             get {
                 GpsData gps = ReadGpsFromProfile();
-                return gps != null && gps.IsValid()
-                    ? gps.ToString()
-                    : "GPS not set (Options > General)";
+                return gps != null && gps.IsValid() ? gps.ToString() : "GPS not set (Options > General)";
             }
         }
 
         public string TelescopeStatusDisplay {
             get {
                 bool connected = telescopeMediator?.GetInfo()?.Connected ?? false;
-                return connected ? "Telescope connected" : "Telescope not connected";
+                if (connected) {
+                    AstrometricData astro = ReadAstrometricDataFromTelescope();
+                    return astro.ToString();
+                }
+                else return "Telescope mount not connected";
             }
         }
 
         public string WeatherStatusDisplay {
             get {
                 bool connected = weatherMediator?.GetInfo()?.Connected ?? false;
-                return connected ? "Weather device connected" : "Weather device not connected";
+                if (connected) {
+                    WeatherData weather = ReadWeatherData();
+                    return weather.ToString();
+                }
+                return "Weather device/source not connected";
             }
         }
 
@@ -174,7 +180,9 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         private AstrometricData ReadAstrometricDataFromTelescope() {
-            return ReadAstrometricData(double.NaN, double.NaN);
+            var settings = profileService?.ActiveProfile?.AstrometrySettings;
+            if (settings == null) return ReadAstrometricData(double.NaN, double.NaN);
+            else return ReadAstrometricData(settings.Latitude, settings.Longitude);
         }
 
         private AstrometricData ReadAstrometricData(double latitude = double.NaN, double longitude = double.NaN) {
@@ -199,8 +207,10 @@ namespace NikonCameraSettings.SequenceItems {
             try {
                 var info = weatherMediator?.GetInfo();
                 if (info == null || !info.Connected) return null;
-                return new WeatherData(info.Temperature, info.Humidity, info.DewPoint, info.Pressure, 
-                                       info.WindSpeed, info.WindDirection, info.CloudCover, info.SkyQuality);
+                return new WeatherData(info?.Temperature ?? double.NaN, info?.Humidity ?? double.NaN, 
+                                       info?.DewPoint ?? double.NaN, info?.Pressure ?? double.NaN, 
+                                       info?.WindSpeed ?? double.NaN, info?.WindDirection ?? double.NaN, 
+                                       info?.CloudCover ?? double.NaN, info?.SkyQuality ?? double.NaN);
             } catch (Exception ex) {
                 Logger.Warning($"SetXmpIptcData: Error reading weather data: {ex.Message}");
                 return null;
