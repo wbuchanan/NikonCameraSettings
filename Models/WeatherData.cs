@@ -103,7 +103,7 @@ namespace NikonCameraSettings.Models {
                 parts.Add(string.Format(CultureInfo.InvariantCulture, "Wind:{0:F1}m/s", WindSpeed));
             }
             if (!double.IsNaN(SkyQuality)) {
-                parts.Add(string.Format(CultureInfo.InvariantCulture, "SQM:{0:F2}", SkyQuality));
+                parts.Add(string.Format(CultureInfo.InvariantCulture, "Sky Quality:{0:F2}", SkyQuality));
             }
             if (!double.IsNaN(CloudCover)) {
                 parts.Add(string.Format(CultureInfo.InvariantCulture, "Cloud:{0:F0}%", CloudCover));
