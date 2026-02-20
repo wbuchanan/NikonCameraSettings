@@ -413,4 +413,560 @@
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetActiveDLighting}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Active D-Lighting: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ActiveDLightingSettings}"
+                        SelectedItem="{Binding SelectedActiveDLightingSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetVignetteControl}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Vignette Control: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding VignetteControlSettings}"
+                        SelectedItem="{Binding SelectedVignetteControlSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetDiffractionCompensation}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Diffraction Compensation: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding DiffractionCompensationSettings}"
+                        SelectedItem="{Binding SelectedDiffractionCompensationSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetAutoDistortionControl}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Auto Distortion Control: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding AutoDistortionSettings}"
+                        SelectedItem="{Binding SelectedAutoDistortionSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetSingleAFPriority}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Single AF Priority: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding SingleAFPrioritySettings}"
+                        SelectedItem="{Binding SelectedSingleAFPrioritySetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetContinuousAFPriority}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Continuous AF Priority: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ContinuousAFPrioritySettings}"
+                        SelectedItem="{Binding SelectedContinuousAFPrioritySetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetMeteringMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Metering Mode: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding MeteringModeSettings}"
+                        SelectedItem="{Binding SelectedMeteringModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetExposureMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Exposure Mode: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ExposureModeSettings}"
+                        SelectedItem="{Binding SelectedExposureModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetSilentMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Silent Mode: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding SilentModeSettings}"
+                        SelectedItem="{Binding SelectedSilentModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetFileNumberSequence}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set File Number Sequence: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding FileNumberSequenceSettings}"
+                        SelectedItem="{Binding SelectedFileNumberSequenceSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetAFModeLiveView}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set AF Mode (Live View): " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding AFModeLiveViewSettings}"
+                        SelectedItem="{Binding SelectedAFModeLiveViewSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetAFSubjectDetection}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set AF Subject Detection: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding AFSubjectDetectionSettings}"
+                        SelectedItem="{Binding SelectedAFSubjectDetectionSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetMenuBank}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Select Menu Bank: " />
+                    <ComboBox
+                        Width="100"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding MenuBankSettings}"
+                        SelectedItem="{Binding SelectedMenuBankSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetImageSize}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Image Size: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ImageSizeSettings}"
+                        SelectedItem="{Binding SelectedImageSizeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetColorSpace}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Color Space: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ColorSpaceSettings}"
+                        SelectedItem="{Binding SelectedColorSpaceSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetNoiseReduction}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Noise Reduction: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding NoiseReductionSettings}"
+                        SelectedItem="{Binding SelectedNoiseReductionSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetHighISONoiseReduction}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set High ISO Noise Reduction: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding HighISONoiseReductionSettings}"
+                        SelectedItem="{Binding SelectedHighISONoiseReductionSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetPictureControl}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Picture Control: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding PictureControlSettings}"
+                        SelectedItem="{Binding SelectedPictureControlSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetHDRMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set HDR Mode: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding HDRModeSettings}"
+                        SelectedItem="{Binding SelectedHDRModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetBracketingType}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Bracketing Type: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding BracketingTypeSettings}"
+                        SelectedItem="{Binding SelectedBracketingTypeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetFlickerReduction}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Flicker Reduction: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding FlickerReductionSettings}"
+                        SelectedItem="{Binding SelectedFlickerReductionSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetShutterSound}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Shutter Sound: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ShutterSoundSettings}"
+                        SelectedItem="{Binding SelectedShutterSoundSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetCameraInclinationMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Camera Inclination Mode: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding CameraInclinationModeSettings}"
+                        SelectedItem="{Binding SelectedCameraInclinationModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetLiveViewMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Live View Mode: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding LiveViewModeSettings}"
+                        SelectedItem="{Binding SelectedLiveViewModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetAFModeRestrictions}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set AF Mode Restrictions: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding AFModeRestrictionsSettings}"
+                        SelectedItem="{Binding SelectedAFModeRestrictionsSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetSlot2SaveMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Card Slot 2 Save Mode: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding Slot2SaveModeSettings}"
+                        SelectedItem="{Binding SelectedSlot2SaveModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetEVInterval}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Exposure Comp Stop Size: " />
+                    <ComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding EVIntervalSettings}"
+                        SelectedItem="{Binding SelectedEVIntervalSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetExposureDelay}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Exposure Delay: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ExposureDelaySettings}"
+                        SelectedItem="{Binding SelectedExposureDelaySetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetShootingMode}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Shooting Mode: " />
+                    <ComboBox
+                        Width="150"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding ShootingModeSettings}"
+                        SelectedItem="{Binding SelectedShootingModeSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetEnableCopyright}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Enable Copyright Info: " />
+                    <ComboBox
+                        Width="80"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding EnableCopyrightSettings}"
+                        SelectedItem="{Binding SelectedEnableCopyrightSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetEnableComment}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Enable Comment Embedding: " />
+                    <ComboBox
+                        Width="80"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding EnableCommentSettings}"
+                        SelectedItem="{Binding SelectedEnableCommentSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetLockCamera}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Lock/Unlock Camera Controls: " />
+                    <ComboBox
+                        Width="80"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding LockCameraSettings}"
+                        SelectedItem="{Binding SelectedLockCameraSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetStarlightView}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Starlight View: " />
+                    <ComboBox
+                        Width="80"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding StarlightViewSettings}"
+                        SelectedItem="{Binding SelectedStarlightViewSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetEnableBracketing}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Enable Bracketing: " />
+                    <ComboBox
+                        Width="80"
+                        Margin="5,0,0,0"
+                        ItemsSource="{Binding EnableBracketingSettings}"
+                        SelectedItem="{Binding SelectedEnableBracketingSetting, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetArtistName}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Artist Name: " />
+                    <TextBox
+                        Width="200"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding ArtistName, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetCopyrightInfo}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set Copyright Info: " />
+                    <TextBox
+                        Width="200"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding CopyrightInfo, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SetUserComment}">
+        <nina:SequenceBlockView DataContext="{Binding}">
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Set User Comment: " />
+                    <TextBox
+                        Width="200"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding UserComment, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
+
 </ResourceDictionary>
