@@ -49,9 +49,11 @@ using System.Runtime.InteropServices;
 //[Optional] A url to an example screenshot of your plugin in action
 [assembly: AssemblyMetadata("ScreenshotURL", "https://raw.githubusercontent.com/wbuchanan/NikonCameraSettings/refs/heads/main/AvailableCameraSettings.png")]
 //[Optional] An additional url to an example example screenshot of your plugin in action
-//[assembly: AssemblyMetadata("AltScreenshotURL", "")]
+[assembly: AssemblyMetadata("AltScreenshotURL", "https://raw.githubusercontent.com/wbuchanan/NikonCameraSettings/refs/heads/main/AvailableCameraSettings.png")]
 //[Optional] An in-depth description of your plugin
-[assembly: AssemblyMetadata("LongDescription", @"Will allow users to modify multiple camera settings during imaging sequences.  See the project's README for additional information: https://github.com/wbuchanan/NikonCameraSettings")]
+[assembly: AssemblyMetadata("LongDescription", @"Will allow users to modify multiple camera settings during imaging sequences.  
+
+See the project's README for additional information: https://github.com/wbuchanan/NikonCameraSettings")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
