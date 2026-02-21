@@ -550,21 +550,6 @@
         </nina:SequenceBlockView>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type local:SetCameraInclinationMode}">
-        <nina:SequenceBlockView DataContext="{Binding}">
-            <nina:SequenceBlockView.SequenceItemContent>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Text="Set Camera Inclination Mode: " />
-                    <ComboBox
-                        Width="150"
-                        Margin="5,0,0,0"
-                        ItemsSource="{Binding CameraInclinationModeSettings}"
-                        SelectedItem="{Binding SelectedCameraInclinationModeSetting, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-            </nina:SequenceBlockView.SequenceItemContent>
-        </nina:SequenceBlockView>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type local:SetLiveViewMode}">
         <nina:SequenceBlockView DataContext="{Binding}">
             <nina:SequenceBlockView.SequenceItemContent>

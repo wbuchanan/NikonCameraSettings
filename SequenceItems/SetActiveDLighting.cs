@@ -79,12 +79,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         private void SetActiveDLightingSettingsList() {
-            if (!this.camera.GetInfo().Connected || theCam == null) return;
-            if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_Active_D_Lighting)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_Active_D_Lighting);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            ActiveDLightingSettings = list;
+            activeDLightingSettings = CamInfo.GetActiveDLightingSettings();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +114,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_Active_D_Lighting);
-            e.Index = activeDLightingSettings.IndexOf(selectedActiveDLightingSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_Active_D_Lighting, e);
+            new CamInfo(theCam).SetActiveDLighting(theCam, SelectedActiveDLightingSetting);
             return Task.CompletedTask;
         }
     }

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,14 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetSlot2SaveMode : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "Overflow", (uint)0 },
+            { "Backup", (uint)1 },
+            { "RAW Slot 1 - JPEG Slot 2", (uint)2 },
+            { "JPEG Slot 1 - JPEG Slot 2", (uint)3 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +90,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetSlot2SaveModeSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_Slot2ImageSaveMode)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_Slot2ImageSaveMode);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            Slot2SaveModeSettings = list;
+            Slot2SaveModeSettings = _setting.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +125,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_Slot2ImageSaveMode);
-            e.Index = slot2SaveModeSettings.IndexOf(selectedSlot2SaveModeSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_Slot2ImageSaveMode, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_Slot2ImageSaveMode, _setting[selectedSlot2SaveModeSetting]);
             return Task.CompletedTask;
         }
     }

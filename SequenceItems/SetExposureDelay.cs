@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,16 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetExposureDelay : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "3 Seconds", (uint)0 },
+            { "2 Seconds", (uint)1 },
+            { "1 Second", (uint)2 },
+            { "Off", (uint)3 },
+            { "1/2 Second", (uint)4 },
+            { "1/5 Second", (uint)5 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +92,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetExposureDelaySettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_ExposureDelayEx)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_ExposureDelayEx);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            ExposureDelaySettings = list;
+            ExposureDelaySettings = _setting.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +127,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_ExposureDelayEx);
-            e.Index = exposureDelaySettings.IndexOf(selectedExposureDelaySetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_ExposureDelayEx, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_ExposureDelayEx, _setting[selectedExposureDelaySetting]);
             return Task.CompletedTask;
         }
     }

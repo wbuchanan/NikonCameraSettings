@@ -81,9 +81,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetLiveViewModeSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_ViewMode)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_ViewMode);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            var list = new List<string>() { "Show effects of settings", "Adjust for ease of viewing" };
             LiveViewModeSettings = list;
         }
 
@@ -119,9 +117,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_ViewMode);
-            e.Index = liveViewModeSettings.IndexOf(selectedLiveViewModeSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_ViewMode, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_ViewMode, (uint)liveViewModeSettings.IndexOf(selectedLiveViewModeSetting));
             return Task.CompletedTask;
         }
     }

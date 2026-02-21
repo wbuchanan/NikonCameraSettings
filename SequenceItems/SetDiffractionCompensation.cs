@@ -32,6 +32,8 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetDiffractionCompensation : SequenceItem, IValidatable {
+
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,9 +83,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetDiffractionCompensationSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_DiffractionCompensation)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_DiffractionCompensation);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            var list = new List<string>() { "Off", "On" };
             DiffractionCompensationSettings = list;
         }
 
@@ -119,9 +119,8 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_DiffractionCompensation);
-            e.Index = diffractionCompensationSettings.IndexOf(selectedDiffractionCompensationSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_DiffractionCompensation, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_DiffractionCompensation, 
+                (uint)diffractionCompensationSettings.IndexOf(selectedDiffractionCompensationSetting));
             return Task.CompletedTask;
         }
     }

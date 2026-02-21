@@ -81,9 +81,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetAutoDistortionSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_AutoDistortion)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AutoDistortion);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            var list = new List<string>() { "Off", "On" };
             AutoDistortionSettings = list;
         }
 
@@ -119,9 +117,8 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AutoDistortion);
-            e.Index = autoDistortionSettings.IndexOf(selectedAutoDistortionSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_AutoDistortion, e);
+            int idx = autoDistortionSettings.IndexOf(selectedAutoDistortionSetting);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_AutoDistortion, (uint)idx);
             return Task.CompletedTask;
         }
     }

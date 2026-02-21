@@ -29,59 +29,58 @@ For now, here is my TODO list over the longer term.
 The list is not yet prioritized, but these are settings that I imagine others may find helpful/useful to manipulate from the advanced sequencer as well.
 
 - [ ] Capture Dust Off Reference Photo : kNkMAIDCapability_CaptureDustImage
-- [ ] Active D Lighting : kNkMAIDCapability_Active_D_Lighting
-- [ ] Vignette Control : kNkMAIDCapability_VignetteControl
-- [ ] Diffraction Compensation : kNkMAIDCapability_DiffractionCompensation
-- [ ] Auto Distortion Control : kNkMAIDCapability_AutoDistortion
-- [ ] Single Auto Focus Priority : kNkMAIDCapability_AFsPriority
+- [x] Active D Lighting : kNkMAIDCapability_Active_D_Lighting
+- [x] Vignette Control : kNkMAIDCapability_VignetteControl
+- [x] Diffraction Compensation : kNkMAIDCapability_DiffractionCompensation
+- [x] Auto Distortion Control : kNkMAIDCapability_AutoDistortion
+- [x] Single Auto Focus Priority : kNkMAIDCapability_AFsPriority
 - [ ] Extended Shutter Speeds Manual : kNkMAIDCapability_ExtendedShutterSpeedsManual
-- [ ] Shooting Mode : kNkMAIDCapability_ShootingMode
+- [x] Shooting Mode : kNkMAIDCapability_ShootingMode
 - [ ] Continuous Shooting # : kNkMAIDCapability_ContinuousShootingNum
-- [ ] Enable Copyright : kNkMAIDCapability_EnableCopyright
-- [ ] Artist Name : kNkMAIDCapability_ArtistName
-- [ ] Copyright Info : kNkMAIDCapability_CopyrightInfo
-- [ ] User Comment : kNkMAIDCapability_UserComment
-- [ ] Enable Comment : kNkMAIDCapability_EnableComment
-- [ ] Metering Mode : kNkMAIDCapability_MeteringMode
-- [ ] Exposure Mode : kNkMAIDCapability_ExposureMode
+- [x] Enable Copyright : kNkMAIDCapability_EnableCopyright
+- [x] Artist Name : kNkMAIDCapability_ArtistName
+- [x] Copyright Info : kNkMAIDCapability_CopyrightInfo
+- [x] User Comment : kNkMAIDCapability_UserComment
+- [x] Enable Comment : kNkMAIDCapability_EnableComment
+- [x] Metering Mode : kNkMAIDCapability_MeteringMode
+- [x] Exposure Mode : kNkMAIDCapability_ExposureMode
 - [ ] Focus Area Mode : kNkMAIDCapability_FocusAreaMode
-- [ ] Enable Bracketing : kNkMAIDCapability_EnableBracketing
-- [ ] Starlight View : kNkMAIDCapability_StarlightView
-- [ ] Shutter Sound : kNkMAIDCapability_ShutterSoundEffect
-- [ ] Silent Mode : kNkMAIDCapability_SilentMode
-- [ ] Camera Inclination (Auto rotate playback) : kNkMAIDCapability_CameraInclinationMode
-- [ ] Lock Camera : kNkMAIDCapability_LockCamera
-- [ ] Live View View Mode : kNkMAIDCapability_ViewMode
+- [x] Enable Bracketing : kNkMAIDCapability_EnableBracketing
+- [x] Starlight View : kNkMAIDCapability_StarlightView
+- [x] Shutter Sound : kNkMAIDCapability_ShutterSoundEffect
+- [x] Silent Mode : kNkMAIDCapability_SilentMode
+- [x] Lock Camera : kNkMAIDCapability_LockCamera
+- [x] Live View View Mode : kNkMAIDCapability_ViewMode
 - [ ] Show Effects of Settings View Mode : kNkMAIDCapability_ViewModeShowEffectsOfSettings
-- [ ] Exposure Delay : kNkMAIDCapability_ExposureDelayEx
-- [ ] Focus mode restrictions : kNkMAIDCapability_AFModeRestrictions
-- [ ] File Number Sequence : kNkMAIDCapability_NumberingMode
+- [x] Exposure Delay : kNkMAIDCapability_ExposureDelayEx
+- [x] Focus mode restrictions : kNkMAIDCapability_AFModeRestrictions
+- [x] File Number Sequence : kNkMAIDCapability_NumberingMode
 - [ ] Reset File Number : kNkMAIDCapability_ResetFileNumber
-- [ ] Set Autofocus Mode : kNkMAIDCapability_AFModeAtLiveView
-- [ ] Set Autofocus Subject Detection : kNkMAIDCapability_AFSubjectDetection
+- [x] Set Autofocus Mode : kNkMAIDCapability_AFModeAtLiveView
+- [x] Set Autofocus Subject Detection : kNkMAIDCapability_AFSubjectDetection
 - [ ] Continuous Shooting - Low Speed : kNkMAIDCapability_ShootingSpeed
 - [ ] Continuous Shooting - High Speed : kNkMAIDCapability_ShootingSpeedHigh
-- [ ] Card Slot 2 Save Mode : kNkMAIDCapability_Slot2ImageSaveMode
+- [x] Card Slot 2 Save Mode : kNkMAIDCapability_Slot2ImageSaveMode
 - [ ] Lock Shutter Speed Setting : kNkMAIDCapability_ShutterSpeedLockSetting
 - [ ] Lock Aperture Setting : kNkMAIDCapability_ApertureLockSetting
-- [ ] Select Menu Bank : kNkMAIDCapability_MenuBank
+- [x] Select Menu Bank : kNkMAIDCapability_MenuBank
 - [ ] Set Shooting Bank Name : kNkMAIDCapability_ShootingBankName
 - [ ] Select Custom Settings : kNkMAIDCapability_CustomSettings
 - [ ] Set Custom Shooting Bank Name : kNkMAIDCapability_CustomBankName
-- [ ] Image size : kNkMAIDCapability_CCDDataMode
-- [ ] Color Space : kNkMAIDCapability_ImageColorSpace
+- [x] Image size : kNkMAIDCapability_CCDDataMode
+- [x] Color Space : kNkMAIDCapability_ImageColorSpace
 - [x] ISO Control : kNkMAIDCapability_IsoControl
-- [ ] Noise Reduction : kNkMAIDCapability_NoiseReduction
-- [ ] HighISONR : kNkMAIDCapability_NoiseReductionHighISO
-- [ ] Picture Control : kNkMAIDCapability_PictureControl
+- [x] Noise Reduction : kNkMAIDCapability_NoiseReduction
+- [x] HighISONR : kNkMAIDCapability_NoiseReductionHighISO
+- [x] Picture Control : kNkMAIDCapability_PictureControl
 - [ ] Picture Control Data : kNkMAIDCapability_PictureControlDataEx2
-- [ ] HDR Mode : kNkMAIDCapability_HDRMode
+- [x] HDR Mode : kNkMAIDCapability_HDRMode
 - [ ] HDR Smoothing : kNkMAIDCapability_HDRSmoothing
 - [ ] HDR Save Individual Images : kNkMAIDCapability_HDRSaveIndividualImages
-- [ ] Continuous Auto Focus Priority : kNkMAIDCapability_AFcPriority
+- [x] Continuous Auto Focus Priority : kNkMAIDCapability_AFcPriority
 - [ ] AF Area Selector : kNkMAIDCapability_AFAreaSelector
 - [ ] Focus Points Used : kNkMAIDCapability_AFAreaPoint
-- [ ] Exposure Compensation Stop Size : kNkMAIDCapability_EVInterval
+- [x] Exposure Compensation Stop Size : kNkMAIDCapability_EVInterval
 - [ ] Continuous Shooting Limit : kNkMAIDCapability_ShootingLimitEx
 - [ ] Auto Bracketing Vary : kNkMAIDCapability_BracketingVary
 - [ ] Bracketing Factor : kNkMAIDCapability_BracketingFactor
@@ -89,7 +88,7 @@ The list is not yet prioritized, but these are settings that I imagine others ma
 - [ ] Capture with out memory card : kNkMAIDCapability_ShootNoCard
 - [ ] Set Datetime : kNkMAIDCapability_ClockDateTime
 - [ ] AE Bracket Step : kNkMAIDCapability_AEBracketingStep
-- [ ] Bracketing Type : kNkMAIDCapability_BracketingType
+- [x] Bracketing Type : kNkMAIDCapability_BracketingType
 - [ ] Exp Compensation : kNkMAIDCapability_ExposureComp
 - [ ] ADL Bracket Type : kNkMAIDCapability_ADLBracketingType
 - [ ] ADL Bracket Step : kNkMAIDCapability_ADLBracketingStep
@@ -99,7 +98,7 @@ The list is not yet prioritized, but these are settings that I imagine others ma
 - [ ] Adjust focus position step : kNkMAIDCapability_MFDriveStep
 - [ ] Adjust focus position : kNkMAIDCapability_MFDrive
 - [ ] Change Focus Point : kNkMAIDCapability_ContrastAFArea
-- [ ] Flicker Reduction : kNkMAIDCapability_FlickerReductionSetting
+- [x] Flicker Reduction : kNkMAIDCapability_FlickerReductionSetting
 - [ ] High Freq Flicker Reduction : kNkMAIDCapability_HighFrequencyFlickerReduction
 - [ ] Save Current Camera Settings : kNkMAIDCapability_SaveCameraSetting
 - [ ] Center-weighted metering area : kNkMAIDCapability_CWMeteringDiameter

@@ -9,11 +9,6 @@
 
 #endregion "copyright"
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Nikon;
 using NikonCameraSettings.Utils;
@@ -22,6 +17,12 @@ using NINA.Core.Utility;
 using NINA.Equipment.Interfaces.Mediator;
 using NINA.Sequencer.SequenceItem;
 using NINA.Sequencer.Validations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NikonCameraSettings.SequenceItems {
 
@@ -95,6 +96,14 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
+            if (Encoding.ASCII.GetByteCount(copyrightInfo) > 54) {
+                Logger.Warning("Nikon will only allow 36 bytes of ASCII in the copyright information.  Your info will be truncated.");
+            }
+            if (!CamInfo.VerifiedASCII(copyrightInfo)) {
+                Logger.Warning("You can only use the visible ASCII characters in the copyright information.");
+                return Task.CompletedTask;
+            }
+
             theCam.SetString(eNkMAIDCapability.kNkMAIDCapability_CopyrightInfo, copyrightInfo);
             return Task.CompletedTask;
         }

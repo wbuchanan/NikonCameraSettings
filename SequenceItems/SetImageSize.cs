@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -25,13 +26,21 @@ using NINA.Sequencer.Validations;
 
 namespace NikonCameraSettings.SequenceItems {
 
-    [ExportMetadata("Name", "Set Image Size")]
-    [ExportMetadata("Description", "Sets the image size (large, medium, small).")]
+    [ExportMetadata("Name", "Set Image Area/Format")]
+    [ExportMetadata("Description", "Sets the image size/aspect ratio.")]
     [ExportMetadata("Icon", "CameraSVG")]
     [ExportMetadata("Category", "Nikon Settings")]
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetImageSize : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "FX Format", (uint)3 },
+            { "DX Format", (uint)4 },
+            { "1:1", (uint)8 },
+            { "16:9", (uint)9 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +90,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetImageSizeSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_CCDDataMode)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_CCDDataMode);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            ImageSizeSettings = list;
+            ImageSizeSettings = _setting.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +125,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_CCDDataMode);
-            e.Index = imageSizeSettings.IndexOf(selectedImageSizeSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_CCDDataMode, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_CCDDataMode, _setting[selectedImageSizeSetting]);
             return Task.CompletedTask;
         }
     }

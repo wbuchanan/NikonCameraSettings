@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,14 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetAFModeLiveView : SequenceItem, IValidatable {
+
+
+        private static Dictionary<string, uint> settings = new Dictionary<string, uint>() {
+            { "AF-S", (uint)0 },
+            { "AF-C", (uint)1 },
+            { "MF", (uint)4 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +90,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetAFModeLiveViewSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_AFModeAtLiveView)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AFModeAtLiveView);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            AFModeLiveViewSettings = list;
+            AFModeLiveViewSettings = settings.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +125,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AFModeAtLiveView);
-            e.Index = aFModeLiveViewSettings.IndexOf(selectedAFModeLiveViewSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_AFModeAtLiveView, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_AFModeAtLiveView, settings[selectedAFModeLiveViewSetting]);
             return Task.CompletedTask;
         }
     }

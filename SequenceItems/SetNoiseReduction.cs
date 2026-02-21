@@ -32,6 +32,12 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetNoiseReduction : SequenceItem, IValidatable {
+
+        private static Dictionary<string, bool> _setting = new Dictionary<string, bool>() {
+            { "Not Used", false },
+            { "Used", true },
+        }; 
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +87,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetNoiseReductionSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_NoiseReduction)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_NoiseReduction);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            NoiseReductionSettings = list;
+            NoiseReductionSettings = new List<string>() { "Not Used", "Used" };
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +122,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_NoiseReduction);
-            e.Index = noiseReductionSettings.IndexOf(selectedNoiseReductionSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_NoiseReduction, e);
+            theCam.SetBoolean(eNkMAIDCapability.kNkMAIDCapability_NoiseReduction, _setting[selectedNoiseReductionSetting]);
             return Task.CompletedTask;
         }
     }

@@ -81,9 +81,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetAFModeRestrictionsSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_AFModeRestrictions)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AFModeRestrictions);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            var list = new List<string>() { "No Restrictions", "Single AF", "Continuous AF", "Manual Focus" };
             AFModeRestrictionsSettings = list;
         }
 
@@ -119,9 +117,8 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AFModeRestrictions);
-            e.Index = aFModeRestrictionsSettings.IndexOf(selectedAFModeRestrictionsSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_AFModeRestrictions, e);
+            int idx = aFModeRestrictionsSettings.IndexOf(selectedAFModeRestrictionsSetting);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_AFModeRestrictions, (uint)idx);
             return Task.CompletedTask;
         }
     }

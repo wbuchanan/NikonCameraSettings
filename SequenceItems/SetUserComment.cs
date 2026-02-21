@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -95,6 +96,13 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
+            if (Encoding.ASCII.GetByteCount(userComment) > 36) {
+                Logger.Warning("Nikon will only allow 36 bytes of ASCII in the comment.  Your comment will be truncated.");
+            }
+            if (!CamInfo.VerifiedASCII(userComment)) {
+                Logger.Warning("You can only use the visible ASCII characters in user comments.");
+                return Task.CompletedTask;
+            }
             theCam.SetString(eNkMAIDCapability.kNkMAIDCapability_UserComment, userComment);
             return Task.CompletedTask;
         }

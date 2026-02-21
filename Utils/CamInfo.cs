@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -62,6 +63,18 @@ namespace NikonCameraSettings.Utils {
             { "Sport", 2 }
         };
 
+        private static Dictionary<string, uint> _activeDLighting = new Dictionary<string, uint>() {
+            {  "High", (uint)0 },
+            { "Normal", (uint)1 },
+            { "Low", (uint)2 },
+            { "Off", (uint)3 },
+            { "On", (uint)4 },
+            { "Extra High 1", (uint)5 },
+            { "Auto", (uint)6 },
+            { "Extra High 2", (uint)7 },
+        };
+
+
         private static NikonDevice camera;
 
         // Mirrors the way the superclass is initialized so this class will have the same member variables defined.
@@ -88,6 +101,10 @@ namespace NikonCameraSettings.Utils {
 
         public static List<string> GetStorageLocationSettings() {
             return _storageLocationOptions.Keys.ToList();
+        }
+
+        public static List<string> GetActiveDLightingSettings() {
+            return _activeDLighting.Keys.ToList();
         }
 
         // Sets the image stabilization setting in the camera.
@@ -119,6 +136,16 @@ namespace NikonCameraSettings.Utils {
             if (camera.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_SaveMedia)) {
                 camera.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_SaveMedia, _storageLocationOptions[storageLocation]);
                 Logger.Debug($"Set media state to {storageLocation}");
+            } else {
+                // Handle exceptions as needed, e.g., log the error or show a message to the user.
+                Logger.Error($"The SDK for this camera does not expose the StorageMedia settings.");
+            }
+        }
+
+        public void SetActiveDLighting(NikonDevice camera, string setting) {
+            if (camera.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_Active_D_Lighting)) {
+                camera.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_Active_D_Lighting, _activeDLighting[setting]);
+                Logger.Debug($"Set Active D Lighting to {setting}.");
             } else {
                 // Handle exceptions as needed, e.g., log the error or show a message to the user.
                 Logger.Error($"The SDK for this camera does not expose the StorageMedia settings.");
@@ -190,5 +217,14 @@ namespace NikonCameraSettings.Utils {
             }
             return false;
         }
+
+        public static bool VerifiedASCII(string content) {
+            if (content == null) return false;
+            if (content.Length == 0 || content == "") return true;
+            return content.All(c => c >= 32 && c <= 126);
+        }
+
     }
+
+
 }

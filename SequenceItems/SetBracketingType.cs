@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,15 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetBracketingType : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "Both_3", (uint)4 },
+            { "Both_5", (uint)5 },
+            { "Both_7", (uint)6 },
+            { "Both_9", (uint)7 },
+            { "None", (uint)8 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -83,7 +93,7 @@ namespace NikonCameraSettings.SequenceItems {
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_BracketingType)) return;
             var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_BracketingType);
             var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            for (int i = 0; i < e.Length; i++) list.Add(_setting.Keys.ToList()[i]);
             BracketingTypeSettings = list;
         }
 
@@ -119,9 +129,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_BracketingType);
-            e.Index = bracketingTypeSettings.IndexOf(selectedBracketingTypeSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_BracketingType, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_BracketingType, _setting[SelectedBracketingTypeSetting]);
             return Task.CompletedTask;
         }
     }

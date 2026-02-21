@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -20,6 +21,7 @@ using NikonCameraSettings.Utils;
 using NINA.Core.Model;
 using NINA.Core.Utility;
 using NINA.Equipment.Interfaces.Mediator;
+using NINA.Image.ImageData;
 using NINA.Sequencer.SequenceItem;
 using NINA.Sequencer.Validations;
 
@@ -32,6 +34,17 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetAFSubjectDetection : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> subjDetection = new Dictionary<string, uint>() {
+            { "Off", (uint)0 },
+            { "Auto", (uint)1 },
+            { "People", (uint)2 },
+            { "Animal", (uint)3 },
+            { "Vehicle", (uint)4 },
+            { "Birds", (uint)5 },
+            { "Airplanes", (uint)6 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -83,7 +96,8 @@ namespace NikonCameraSettings.SequenceItems {
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_AFSubjectDetection)) return;
             var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AFSubjectDetection);
             var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            // This should limit the selections to only those valid for the camera
+            for (int i = 0; i < e.Length; i++) list.Add(subjDetection.Keys.ToList()[i]);
             AFSubjectDetectionSettings = list;
         }
 
@@ -119,9 +133,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_AFSubjectDetection);
-            e.Index = aFSubjectDetectionSettings.IndexOf(selectedAFSubjectDetectionSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_AFSubjectDetection, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_AFSubjectDetection, subjDetection[SelectedAFSubjectDetectionSetting]);
             return Task.CompletedTask;
         }
     }

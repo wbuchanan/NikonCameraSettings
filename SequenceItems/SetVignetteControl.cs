@@ -9,11 +9,6 @@
 
 #endregion "copyright"
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Nikon;
 using NikonCameraSettings.Utils;
@@ -22,6 +17,12 @@ using NINA.Core.Utility;
 using NINA.Equipment.Interfaces.Mediator;
 using NINA.Sequencer.SequenceItem;
 using NINA.Sequencer.Validations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NikonCameraSettings.SequenceItems {
 
@@ -32,6 +33,14 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetVignetteControl : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "High", (uint)0 },
+            { "Normal", (uint)1 },
+            { "Low", (uint)2 },
+            { "Off", (uint)3 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +90,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetVignetteControlSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_VignetteControl)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_VignetteControl);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            VignetteControlSettings = list;
+            VignetteControlSettings = _setting.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +125,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_VignetteControl);
-            e.Index = vignetteControlSettings.IndexOf(selectedVignetteControlSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_VignetteControl, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_VignetteControl, _setting[selectedVignetteControlSetting]);
             return Task.CompletedTask;
         }
     }

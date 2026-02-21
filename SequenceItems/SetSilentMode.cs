@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,12 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetSilentMode : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "Disable", (uint)0 },
+            { "Enable", (uint)1 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +88,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetSilentModeSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_SilentMode)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_SilentMode);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            SilentModeSettings = list;
+            SilentModeSettings = _setting.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +123,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_SilentMode);
-            e.Index = silentModeSettings.IndexOf(selectedSilentModeSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_SilentMode, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_SilentMode, _setting[selectedSilentModeSetting]);
             return Task.CompletedTask;
         }
     }

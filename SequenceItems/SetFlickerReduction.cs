@@ -81,9 +81,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetFlickerReductionSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_FlickerReductionSetting)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_FlickerReductionSetting);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            var list = new List<string>() { "Off", "On" };
             FlickerReductionSettings = list;
         }
 
@@ -119,9 +117,8 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_FlickerReductionSetting);
-            e.Index = flickerReductionSettings.IndexOf(selectedFlickerReductionSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_FlickerReductionSetting, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_FlickerReductionSetting, 
+                (uint)flickerReductionSettings.IndexOf(selectedFlickerReductionSetting));
             return Task.CompletedTask;
         }
     }

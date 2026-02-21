@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,13 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetHDRMode : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+            { "Off", (uint)0 },
+            { "On - Single Photo", (uint)1 },
+            { "On - Series of Photos", (uint)2 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -81,10 +89,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetHDRModeSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_HDRMode)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_HDRMode);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
-            HDRModeSettings = list;
+            HDRModeSettings = _setting.Keys.ToList();
         }
 
         private Task Camera_Connected(object arg1, EventArgs args) {
@@ -119,9 +124,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_HDRMode);
-            e.Index = hDRModeSettings.IndexOf(selectedHDRModeSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_HDRMode, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_HDRMode, _setting[selectedHDRModeSetting]);
             return Task.CompletedTask;
         }
     }

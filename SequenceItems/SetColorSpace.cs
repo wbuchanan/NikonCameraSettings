@@ -81,9 +81,7 @@ namespace NikonCameraSettings.SequenceItems {
         private void SetColorSpaceSettingsList() {
             if (!this.camera.GetInfo().Connected || theCam == null) return;
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_ImageColorSpace)) return;
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_ImageColorSpace);
-            var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            var list = new List<string>() { "sRGB", "AdobeRGB" };
             ColorSpaceSettings = list;
         }
 
@@ -119,9 +117,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_ImageColorSpace);
-            e.Index = colorSpaceSettings.IndexOf(selectedColorSpaceSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_ImageColorSpace, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_ImageColorSpace, (uint)colorSpaceSettings.IndexOf(selectedColorSpaceSetting));
             return Task.CompletedTask;
         }
     }

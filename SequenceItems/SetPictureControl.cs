@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -32,6 +33,50 @@ namespace NikonCameraSettings.SequenceItems {
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
     public class SetPictureControl : SequenceItem, IValidatable {
+
+        private static Dictionary<string, uint> _setting = new Dictionary<string, uint>() {
+           { "Standard", (uint)1 },
+           { "Neutral", (uint)2 },
+           { "Vivid", (uint)3 },
+           { "Monochrome", (uint)4 },
+           { "Portrait", (uint)5 },
+           { "Landscape", (uint)6 },
+           { "Flat", (uint)7 },
+           { "Auto", (uint)8 },
+           { "FlatMonochrome", (uint)9 },
+           { "DeepToneMonochrome", (uint)10 },
+           { "RichTonePortrait", (uint)11 },
+           { "Dream", (uint)101 },
+           { "Morning", (uint)102 },
+           { "Pop", (uint)103 },
+           { "Sunday", (uint)104 },
+           { "Somber", (uint)105 },
+           { "Dramatic", (uint)106 },
+           { "Silence", (uint)107 },
+           { "Breached", (uint)108 },
+           { "Melancholic", (uint)109 },
+           { "Pure", (uint)110 },
+           { "Denim", (uint)111 },
+           { "Toy", (uint)112 },
+           { "Sepia", (uint)113 },
+           { "Blue", (uint)114 },
+           { "Red", (uint)115 },
+           { "Pink", (uint)116 },
+           { "Charcoal", (uint)117 },
+           { "Graphite", (uint)118 },
+           { "Binary", (uint)119 },
+           { "Carbon", (uint)120 },
+           { "Custom1", (uint)201 },
+           { "Custom2", (uint)202 },
+           { "Custom3", (uint)203 },
+           { "Custom4", (uint)204 },
+           { "Custom5", (uint)205 },
+           { "Custom6", (uint)206 },
+           { "Custom7", (uint)207 },
+           { "Custom8", (uint)208 },
+           { "Custom9", (uint)209 },
+        };
+
         private IList<string> issues = new List<string>();
 
         public IList<string> Issues {
@@ -83,7 +128,9 @@ namespace NikonCameraSettings.SequenceItems {
             if (!theCam.SupportsCapability(eNkMAIDCapability.kNkMAIDCapability_PictureControl)) return;
             var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_PictureControl);
             var list = new List<string>();
-            for (int i = 0; i < e.Length; i++) list.Add(e[i].ToString());
+            for (int i = 0; i < e.Length; i++) {
+                list.Add(_setting.Where(p => p.Value == (uint)e[i]).Select(p => p.Key).FirstOrDefault<string>());
+            }
             PictureControlSettings = list;
         }
 
@@ -119,9 +166,7 @@ namespace NikonCameraSettings.SequenceItems {
         }
 
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            var e = theCam.GetEnum(eNkMAIDCapability.kNkMAIDCapability_PictureControl);
-            e.Index = pictureControlSettings.IndexOf(selectedPictureControlSetting);
-            theCam.SetEnum(eNkMAIDCapability.kNkMAIDCapability_PictureControl, e);
+            theCam.SetUnsigned(eNkMAIDCapability.kNkMAIDCapability_PictureControl, _setting[selectedPictureControlSetting]);
             return Task.CompletedTask;
         }
     }
