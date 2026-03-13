@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="../ninaOfficial/nikoncswrapper/nikoncswrapper.csproj" />
-  <Project Path="NikonCameraSettings.csproj" />
+  <Project Path="NikonCameraSettings.csproj">
+    <BuildDependency Project="../ninaOfficial/nikoncswrapper/nikoncswrapper.csproj" />
+  </Project>
 </Solution>

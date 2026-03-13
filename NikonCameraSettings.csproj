@@ -14,13 +14,10 @@
     <PackageReference Include="NINA.Plugin" Version="3.0.0.2017-beta">
       <ExcludeAssets>none</ExcludeAssets>
     </PackageReference>
-  </ItemGroup> 
-  <ItemGroup>
-    <ProjectReference Include="..\ninaOfficial\nikoncswrapper\nikoncswrapper.csproj">
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ninaOfficial\nikoncswrapper\nikoncswrapper.csproj"/>
+  </ItemGroup> 
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

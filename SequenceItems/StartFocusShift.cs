@@ -21,6 +21,7 @@ using NINA.Equipment.Equipment.MyCamera;
 using NINA.Equipment.Interfaces.Mediator;
 using NINA.Sequencer.SequenceItem;
 using NINA.Sequencer.Validations;
+using NINA;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
